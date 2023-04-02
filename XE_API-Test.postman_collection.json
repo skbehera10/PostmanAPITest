@@ -1,0 +1,114 @@
+{
+	"info": {
+		"_postman_id": "fa40c269-18fa-4d90-b6ca-12e6c1b96292",
+		"name": "XE_API-Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26698081"
+	},
+	"item": [
+		{
+			"name": "Test Set",
+			"item": [
+				{
+					"name": "1. GET Method",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//1# To check Whether status is 200 OK\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//2# To Validate the response message has\r",
+									"// - all 'title' and 'body' fields have content\r",
+									"// - none of the fields contain the word 'zombie';\r",
+									"pm.test(\"Verify that response has  - all 'title' and 'body' fields have content and response doesn't contain word zombie\", function () {\r",
+									"   var response = pm.response.json();  \r",
+									"    pm.expect(response.title).not.to.be.null;\r",
+									"    pm.expect(response.body).not.to.be.null;\r",
+									"    pm.expect(response).not.to.include(\"zombie\")\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://jsonplaceholder.typicode.com/posts/",
+							"protocol": "https",
+							"host": [
+								"jsonplaceholder",
+								"typicode",
+								"com"
+							],
+							"path": [
+								"posts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2. POST Method",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//1# To check Whether status is 200 /201 \r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"    //pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//2# To Validate the response message, i.e. that the topping:\r",
+									"// - is bacon, cheese and mushroom; and\r",
+									"// - does not contain chicken;\r",
+									"\r",
+									"pm.test(\"Verify the response message Contain 'bacon', 'cheese'& 'mushroom' and doesnot contain 'chicken'\", ()=> {\r",
+									"   const response = pm.response.json();  \r",
+									"    pm.expect(response.json.topping).include(\"bacon\", \"cheese\", \"mushroom\").not.include(\"chicken\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"student\": \"Tim Allen\",\r\n    \"email_address\": \"tim@homeimprovement.com\",\r\n    \"phone\": \"(408) 8674530\",\r\n    \"current_grade\": \"B+\",\r\n    \"topping\": [\r\n        \"bacon\",\r\n        \"cheese\",\r\n        \"mushroom\"\r\n    ]\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://httpbin.org/post",
+							"protocol": "https",
+							"host": [
+								"httpbin",
+								"org"
+							],
+							"path": [
+								"post"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
